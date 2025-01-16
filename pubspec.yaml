@@ -32,6 +32,7 @@ dev_dependencies:
  
 flutter:
   assets:
+    - assets/xnova_icon.png
     - assets/xnova.png
     - assets/home/
     - assets/bars/

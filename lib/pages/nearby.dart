@@ -9,16 +9,31 @@ class Nearby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FlutterMap(
-      options: MapOptions(
-          initialCenter: LatLng(51.509364, -0.128928), initialZoom: 9.2),
-      children: [
-        TileLayer(
-          urlTemplate:
-              'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // OSMF's Tile Server
-          userAgentPackageName: 'com.example.xnova',
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                'assets/xnova_icon.png',
+                height: 150,
+                width: 100,
+              ),
+              IconButton(onPressed: () => {}, icon: Icon(Icons.search))
+            ],
+          ),
+          backgroundColor: Colors.white,
+          elevation: 10,
         ),
-      ],
-    ));
+        body: FlutterMap(
+          options: MapOptions(
+              initialCenter: LatLng(51.509364, -0.128928), initialZoom: 9.2),
+          children: [
+            TileLayer(
+              urlTemplate:
+                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // OSMF's Tile Server
+              userAgentPackageName: 'com.example.xnova',
+            ),
+          ],
+        ));
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 
 class BarDetail extends StatelessWidget {
   final Map<String, dynamic> bar;
@@ -131,19 +134,133 @@ class BarDetail extends StatelessWidget {
 
   Widget _buildRewardsTab() {
     return Center(
-      child: Text('Rewards Tab of ${bar['title']}'),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.card_giftcard_outlined),
+              const SizedBox(width: 10),
+              Text(
+                'Total Points - 1000',
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          Image(image: AssetImage('assets/barcode.png')),
+        ],
+      ),
     );
   }
 
   Widget _buildMapTab() {
-    return Center(
-      child: Text('Map of ${bar['title']}'),
+    final LatLng location = LatLng(16.83449908173125, 96.17730645986191);
+
+    return FlutterMap(
+      options: MapOptions(initialCenter: location, initialZoom: 9.2),
+      children: [
+        TileLayer(
+          urlTemplate:
+              'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // OSMF's Tile Server
+          userAgentPackageName: 'com.example.xnova',
+        ),
+        MarkerLayer(
+          markers: [
+            Marker(
+                point: location,
+                child: Builder(
+                  builder: (ctx) => const Icon(
+                    Icons.location_pin,
+                    color: Colors.cyan,
+                    size: 40.0,
+                  ),
+                )),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _buildCommentTab() {
-    return Center(
-      child: Text('Comment of ${bar['title']}'),
-    );
+    final List<Map<String, dynamic>> commentList = [
+      {
+        'id': 1,
+        'comment':
+            "Great atmosphere and friendly staff—perfect spot for a night out"
+      },
+      {
+        'id': 2,
+        'comment':
+            "ဒီဘားမှာ အရသာရှိတဲ့ ကော်တေ့လ်တွေကို အတူတကွ ရင်းနှီးပြီး ခံစားနိုင်ပါတယ်။"
+      },
+      {
+        'id': 3,
+        'comment':
+            "I love the vibe of this bar—chill, but with enough energy to keep things fun"
+      },
+    ];
+
+    final TextEditingController _commentController = TextEditingController();
+
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: commentList.length,
+                itemBuilder: (context, index) {
+                  final item = commentList[index];
+                  return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: 350,
+                            ),
+                            child: Text(item['comment'],
+                                style: const TextStyle(fontSize: 12)),
+                          )
+                        ],
+                      ));
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _commentController,
+                      decoration: InputDecoration(
+                        hintText: 'Add a comment ...',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }

@@ -48,7 +48,7 @@ class HomeCardList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: Text(
             'Top Bars in Yangon',
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

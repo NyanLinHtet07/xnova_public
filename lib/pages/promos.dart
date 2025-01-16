@@ -6,6 +6,21 @@ class Promos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              'assets/xnova_icon.png',
+              height: 150,
+              width: 100,
+            ),
+            IconButton(onPressed: () => {}, icon: Icon(Icons.search))
+          ],
+        ),
+        backgroundColor: Colors.white,
+        elevation: 10,
+      ),
       body: Center(
         child: Text('Hello Promos Page'),
       ),

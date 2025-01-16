@@ -10,14 +10,16 @@ class Home extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset(
-                'assets/xnova.png',
+                'assets/xnova_icon.png',
                 height: 150,
                 width: 100,
               ),
-              SizedBox(
-                width: 10,
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {},
               )
             ],
           ),
