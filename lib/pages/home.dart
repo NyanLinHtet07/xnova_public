@@ -29,6 +29,7 @@ class Home extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: const [HomeCarousel(), HomeCardList()],
+            //children: const [HomeCardList()],
           ),
         ));
   }

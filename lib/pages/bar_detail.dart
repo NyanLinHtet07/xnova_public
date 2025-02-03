@@ -1,12 +1,54 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:xnova/Model/bar_model.dart';
+import 'package:http/http.dart' as http;
 
-class BarDetail extends StatelessWidget {
-  final Map<String, dynamic> bar;
+class BarDetail extends StatefulWidget {
+  final int barId;
 
-  const BarDetail({super.key, required this.bar});
+  const BarDetail({super.key, required this.barId});
+
+  @override
+  _BarDetailState createState() => _BarDetailState();
+}
+
+class _BarDetailState extends State<BarDetail> {
+  Bar? barDetail;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBarDetail();
+  }
+
+  Future<void> fetchBarDetail() async {
+    final url =
+        Uri.parse('https://xnova.nyanlinhtet.com/api/bars/${widget.barId}');
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        setState(() {
+          barDetail = Bar.fromJson(data);
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load bar details');
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+
+      print('Error fetch bar details: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,43 +56,56 @@ class BarDetail extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(bar['title']),
+          title: Text(barDetail?.name ?? 'Loading ...'),
           backgroundColor: Colors.white.withOpacity(0.5),
         ),
-        body: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(1),
-              child: Image.asset(
-                bar['img'],
-                height: 250.0,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const TabBar(
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.blue,
-              tabs: [
-                Tab(text: 'Detail', icon: Icon(Icons.info_outline)),
-                Tab(text: 'Rewards', icon: Icon(Icons.card_giftcard)),
-                Tab(text: 'Map', icon: Icon(Icons.map)),
-                Tab(text: 'Comment', icon: Icon(Icons.comment)),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _buildDetailTab(),
-                  _buildRewardsTab(),
-                  _buildMapTab(),
-                  _buildCommentTab(),
-                ],
-              ),
-            )
-          ],
-        ),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : barDetail == null
+                ? const Center(child: Text('No Data Available'))
+                : Column(
+                    children: [
+                      barDetail!.cover != null
+                          ? Image.network(
+                              'https://xnova.nyanlinhtet.com/${barDetail!.cover!}',
+                              height: 300,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              height: 300,
+                              width: double.infinity,
+                              color: Colors.cyan,
+                              alignment: Alignment.center,
+                              child: Text(
+                                barDetail!.name,
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.white),
+                              ),
+                            ),
+                      const TabBar(
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.grey,
+                        indicatorColor: Colors.blue,
+                        tabs: [
+                          Tab(text: 'Detail', icon: Icon(Icons.info_outline)),
+                          Tab(text: 'Rewards', icon: Icon(Icons.card_giftcard)),
+                          Tab(text: 'Map', icon: Icon(Icons.map)),
+                          Tab(text: 'Comment', icon: Icon(Icons.comment)),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            _buildDetailTab(),
+                            _buildRewardsTab(),
+                            _buildMapTab(),
+                            _buildCommentTab(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
       ),
     );
   }
@@ -70,17 +125,17 @@ class BarDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            bar['title'],
+            barDetail!.name,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
-            'Opening Hour: ${bar['opening']}',
+            'Opening Hour: ${barDetail!.openingTime}',
             style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 4),
           Text(
-            'Happy Hour: ${bar['happy']}',
+            'Happy Hour: N/A',
             style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 16),
