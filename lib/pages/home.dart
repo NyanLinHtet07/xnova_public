@@ -14,8 +14,8 @@ class Home extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/xnova_icon.png',
-                height: 150,
-                width: 100,
+                height: 80,
+                width: 80,
               ),
               IconButton(
                 icon: Icon(Icons.search),

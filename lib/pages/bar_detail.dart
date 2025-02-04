@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:xnova/Model/bar_model.dart';
+import 'package:xnova/Model/bar_detail_model.dart';
 import 'package:http/http.dart' as http;
 
 class BarDetail extends StatefulWidget {
@@ -17,7 +17,7 @@ class BarDetail extends StatefulWidget {
 }
 
 class _BarDetailState extends State<BarDetail> {
-  Bar? barDetail;
+  BarDetailData? barDetail;
   bool isLoading = true;
 
   @override
@@ -35,7 +35,7 @@ class _BarDetailState extends State<BarDetail> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         setState(() {
-          barDetail = Bar.fromJson(data);
+          barDetail = BarDetailData.fromJson(data);
           isLoading = false;
         });
       } else {
@@ -53,11 +53,11 @@ class _BarDetailState extends State<BarDetail> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Text(barDetail?.name ?? 'Loading ...'),
-          backgroundColor: Colors.white.withOpacity(0.5),
+          backgroundColor: Colors.white,
         ),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -89,6 +89,7 @@ class _BarDetailState extends State<BarDetail> {
                         indicatorColor: Colors.blue,
                         tabs: [
                           Tab(text: 'Detail', icon: Icon(Icons.info_outline)),
+                          Tab(text: 'Menu', icon: Icon(Icons.menu)),
                           Tab(text: 'Rewards', icon: Icon(Icons.card_giftcard)),
                           Tab(text: 'Map', icon: Icon(Icons.map)),
                           Tab(text: 'Comment', icon: Icon(Icons.comment)),
@@ -98,6 +99,7 @@ class _BarDetailState extends State<BarDetail> {
                         child: TabBarView(
                           children: [
                             _buildDetailTab(),
+                            _buildMenuTab(),
                             _buildRewardsTab(),
                             _buildMapTab(),
                             _buildCommentTab(),
@@ -111,14 +113,6 @@ class _BarDetailState extends State<BarDetail> {
   }
 
   Widget _buildDetailTab() {
-    final List<Map<String, String>> menuItems = [
-      {'name': 'Cocktail', 'price': '\$12'},
-      {'name': 'Beer', 'price': '\$8'},
-      {'name': 'Wine', 'price': '\$15'},
-      {'name': 'Whiskey', 'price': '\$20'},
-      {'name': 'Snacks', 'price': '\$5'},
-    ];
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -127,6 +121,11 @@ class _BarDetailState extends State<BarDetail> {
           Text(
             barDetail!.name,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Address: ${barDetail!.address}',
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 8),
           Text(
@@ -140,50 +139,112 @@ class _BarDetailState extends State<BarDetail> {
           ),
           const SizedBox(height: 16),
           const Text(
-            'Menu',
+            'Gallery',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: menuItems.length,
-              itemBuilder: (context, index) {
-                final item = menuItems[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
+          const SizedBox(height: 10),
+          barDetail!.images.isNotEmpty
+              ? GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.wine_bar, color: Colors.black),
-                          const SizedBox(width: 10),
-                          Text(
-                            item['name']!,
-                            style: const TextStyle(fontSize: 16),
+                  itemCount: barDetail!.images.length,
+                  itemBuilder: (context, index) {
+                    final image = barDetail!.images[index];
+                    return GestureDetector(
+                        onTap: () {},
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.network(
+                            'https://xnova.nyanlinhtet.com/${image.image}',
+                            height: 200,
+                            width: 200,
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
-                      Text(
-                        item['price']!,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          )
+                        ));
+                  },
+                )
+              : const Center(child: Text('Gallery will Soon')),
         ],
       ),
+    );
+  }
+
+  Widget _buildMenuTab() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // const Text(
+        //   'Menu',
+        //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        // ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: ListView.builder(
+            itemCount: barDetail!.menus.length,
+            itemBuilder: (context, index) {
+              final category = barDetail!.menus[index];
+              return Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        category.title,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: category.menus.length,
+                        itemBuilder: (context, itemIndex) {
+                          final item = category.menus[itemIndex];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.local_drink,
+                                        color: Colors.black),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      item.name,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  '\$${item.price}',
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.black45),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                  ));
+            },
+          ),
+        )
+      ],
     );
   }
 
@@ -213,10 +274,11 @@ class _BarDetailState extends State<BarDetail> {
   }
 
   Widget _buildMapTab() {
-    final LatLng location = LatLng(16.83449908173125, 96.17730645986191);
+    final LatLng location =
+        LatLng(barDetail!.lat ?? 0.0, barDetail!.lng ?? 0.0);
 
     return FlutterMap(
-      options: MapOptions(initialCenter: location, initialZoom: 9.2),
+      options: MapOptions(initialCenter: location, initialZoom: 16.2),
       children: [
         TileLayer(
           urlTemplate:

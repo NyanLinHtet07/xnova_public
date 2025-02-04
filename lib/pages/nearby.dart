@@ -15,8 +15,8 @@ class Nearby extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/xnova_icon.png',
-                height: 150,
-                width: 100,
+                height: 80,
+                width: 80,
               ),
               IconButton(onPressed: () => {}, icon: Icon(Icons.search))
             ],
