@@ -68,20 +68,32 @@ class _BarDetailState extends State<BarDetail> {
                       barDetail!.cover != null
                           ? Image.network(
                               'https://xnova.nyanlinhtet.com/${barDetail!.cover!}',
-                              height: 300,
+                              height: 200,
                               width: double.infinity,
                               fit: BoxFit.cover,
                             )
-                          : Container(
-                              height: 300,
-                              width: double.infinity,
-                              color: Colors.cyan,
-                              alignment: Alignment.center,
-                              child: Text(
-                                barDetail!.name,
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
+                          : Stack(
+                              children: [
+                                Opacity(
+                                  opacity: 0.2,
+                                  child: Image.asset(
+                                    'assets/xnova_cover.png',
+                                    height: 200,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned.fill(
+                                    child: Center(
+                                  child: Text(
+                                    barDetail!.name,
+                                    style: const TextStyle(
+                                        fontSize: 30.0,
+                                        color: Color.fromARGB(255, 0, 12, 44),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ))
+                              ],
                             ),
                       const TabBar(
                         labelColor: Colors.black,
@@ -156,7 +168,27 @@ class _BarDetailState extends State<BarDetail> {
                   itemBuilder: (context, index) {
                     final image = barDetail!.images[index];
                     return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child: InteractiveViewer(
+                                    panEnabled: true,
+                                    minScale: 0.5,
+                                    maxScale: 3.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      child: Image.network(
+                                        'https://xnova.nyanlinhtet.com/${image.image}',
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.network(
@@ -209,7 +241,7 @@ class _BarDetailState extends State<BarDetail> {
                             margin: const EdgeInsets.symmetric(vertical: 8.0),
                             padding: const EdgeInsets.all(12.0),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.grey[50],
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(
@@ -217,7 +249,7 @@ class _BarDetailState extends State<BarDetail> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.local_drink,
+                                    const Icon(Icons.wine_bar,
                                         color: Colors.black),
                                     const SizedBox(width: 10),
                                     Text(
@@ -229,7 +261,7 @@ class _BarDetailState extends State<BarDetail> {
                                   ],
                                 ),
                                 Text(
-                                  '\$${item.price}',
+                                  '${item.price} MMK',
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.black45),
                                 )
