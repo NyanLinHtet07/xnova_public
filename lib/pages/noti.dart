@@ -15,7 +15,12 @@ class Noti extends StatelessWidget {
               height: 80,
               width: 80,
             ),
-            IconButton(onPressed: () => {}, icon: Icon(Icons.search))
+            IconButton(
+              onPressed: () => {},
+              icon: Icon(Icons.menu),
+              iconSize: 28.0,
+              color: Colors.cyan[800],
+            )
           ],
         ),
         backgroundColor: Colors.white,
