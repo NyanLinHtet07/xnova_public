@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xnova/Model/bar_model.dart';
 import 'package:xnova/pages/bar_detail.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class HomeCardList extends StatefulWidget {
   final List<Bar> barLists;
