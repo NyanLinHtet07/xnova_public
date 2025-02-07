@@ -82,12 +82,12 @@ class _BarDetailState extends State<BarDetail> {
                             color: Colors.white, size: 24.0),
                         pinned: true,
                         floating: true,
-                        expandedHeight: 250.0,
+                        expandedHeight: 300.0,
                         flexibleSpace: FlexibleSpaceBar(
                           background: barDetail!.cover != null
                               ? Image.network(
                                   'https://xnova.nyanlinhtet.com/${barDetail!.cover!}',
-                                  height: 250.0,
+                                  height: 300.0,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
                                 )
@@ -97,7 +97,7 @@ class _BarDetailState extends State<BarDetail> {
                                       opacity: 0.2,
                                       child: Image.asset(
                                         'assets/xnova_cover.png',
-                                        height: 250.0,
+                                        height: 300.0,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
                                       ),
@@ -118,31 +118,52 @@ class _BarDetailState extends State<BarDetail> {
                                 ),
                         ),
                         bottom: PreferredSize(
-                          preferredSize: const Size.fromHeight(74.0),
-                          child: Material(
-                            color: const Color.fromARGB(214, 0, 108, 122),
-                            child: const TabBar(
-                              labelColor: Colors.white,
-                              unselectedLabelColor:
-                                  Color.fromARGB(255, 158, 171, 172),
-                              indicatorColor: Colors.blue,
-                              isScrollable: false,
-                              tabs: [
-                                Tab(text: 'Detail', icon: Icon(Icons.home)),
-                                Tab(
-                                    text: 'Menu',
-                                    icon: Icon(Icons.wine_bar_outlined)),
-                                Tab(
-                                    text: 'Rewards',
-                                    icon: Icon(Icons.card_giftcard)),
-                                Tab(text: 'Map', icon: Icon(Icons.map)),
-                                Tab(
-                                    text: 'Comment',
-                                    icon: Icon(Icons.message_rounded)),
-                              ],
-                            ),
-                          ),
-                        ),
+                            preferredSize: const Size.fromHeight(74.0),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 2),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(237, 14, 143, 160),
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromARGB(213, 14, 143, 160),
+                                      blurRadius: 5,
+                                      spreadRadius: 1,
+                                      offset: const Offset(0, 4)),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Material(
+                                  elevation: 12,
+                                  shadowColor: Colors.cyan,
+                                  color:
+                                      const Color.fromARGB(237, 14, 143, 160),
+                                  child: const TabBar(
+                                    labelColor: Colors.white,
+                                    unselectedLabelColor:
+                                        Color.fromARGB(255, 159, 190, 192),
+                                    indicatorColor: Colors.blue,
+                                    isScrollable: false,
+                                    tabs: [
+                                      Tab(
+                                          text: 'Detail',
+                                          icon: Icon(Icons.home)),
+                                      Tab(
+                                          text: 'Menu',
+                                          icon: Icon(Icons.wine_bar_outlined)),
+                                      Tab(
+                                          text: 'Rewards',
+                                          icon: Icon(Icons.card_giftcard)),
+                                      Tab(text: 'Map', icon: Icon(Icons.map)),
+                                      Tab(
+                                          text: 'Comment',
+                                          icon: Icon(Icons.message_rounded)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )),
                       ),
                     ],
                     body: Padding(

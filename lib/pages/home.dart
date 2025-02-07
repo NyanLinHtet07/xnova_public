@@ -16,18 +16,37 @@ class Home extends StatefulWidget {
 class _HomeScreenState extends State<Home> {
   List<Bar> barLists = [];
   bool isLoading = true;
+  bool isLoadingMore = false;
   bool isSearchBarVisible = false;
+  bool hasMoreData = true;
+  int currentPage = 1;
 
   TextEditingController _searchController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchBars();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchMoreBars();
+      }
+    });
   }
 
-  Future<void> fetchBars() async {
-    final url = Uri.parse('https://xnova.nyanlinhtet.com/api/bars');
+  Future<void> fetchBars({String search = ''}) async {
+    setState(() {
+      currentPage = 1;
+      hasMoreData = true;
+      //isLoading = true;
+    });
+
+    final url =
+        Uri.parse('https://xnova.nyanlinhtet.com/api/bars?search=$search');
+
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -38,6 +57,10 @@ class _HomeScreenState extends State<Home> {
           barLists = fetchBars.map((json) => Bar.fromJson(json)).toList();
           isLoading = false;
         });
+
+        if (fetchBars.isEmpty) {
+          hasMoreData = false;
+        }
       } else {
         throw Exception('Failed to load data');
       }
@@ -48,11 +71,43 @@ class _HomeScreenState extends State<Home> {
     }
   }
 
-  Future<void> refreshBars() async {
+  Future<void> fetchMoreBars() async {
+    if (!hasMoreData || isLoadingMore) return;
+
     setState(() {
-      isLoading = true;
+      isLoadingMore = true;
     });
-    await fetchBars();
+
+    currentPage++; // **Increment the page before making the request**
+    final url = Uri.parse(
+        'https://xnova.nyanlinhtet.com/api/bars?page=$currentPage&search=${_searchController.text}');
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final List<dynamic> fetchBars = responseData['data'];
+
+        setState(() {
+          barLists.addAll(fetchBars.map((json) => Bar.fromJson(json)).toList());
+          isLoadingMore = false;
+        });
+
+        if (fetchBars.isEmpty) {
+          hasMoreData = false;
+        }
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      setState(() {
+        isLoadingMore = false;
+      });
+    }
+  }
+
+  Future<void> refreshBars() async {
+    await fetchBars(search: _searchController.text);
   }
 
   @override
@@ -71,7 +126,7 @@ class _HomeScreenState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Visibility(
-                      visible: isSearchBarVisible == false,
+                      visible: !isSearchBarVisible,
                       child: IconButton(
                         icon: Icon(Icons.search),
                         color: Colors.cyan[800],
@@ -105,43 +160,62 @@ class _HomeScreenState extends State<Home> {
               )
             : RefreshIndicator(
                 onRefresh: refreshBars,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: isSearchBarVisible,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                                hintText: 'Search ...',
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    setState(() {
-                                      isSearchBarVisible = false;
-                                      _searchController.clear();
-                                    });
-                                  },
-                                ),
-                                enabledBorder: OutlineInputBorder(
+                child: Column(
+                  children: [
+                    Visibility(
+                      visible: isSearchBarVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            fetchBars(search: value);
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Search ...',
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.close),
+                                onPressed: () {
+                                  setState(() {
+                                    isSearchBarVisible = false;
+                                    _searchController.clear();
+                                  });
+                                },
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide:
+                                    BorderSide(color: Colors.cyan, width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(
-                                      color: Colors.cyan, width: 1.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 2.0))),
-                          ),
+                                      color: Colors.grey, width: 2.0))),
                         ),
                       ),
-                      SizedBox(height: 16.0),
-                      const HomeCarousel(),
-                      HomeCardList(barLists)
-                    ],
-                  ),
-                )));
+                    ),
+                    SizedBox(height: 16.0),
+                    const HomeCarousel(),
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: barLists.length + (isLoadingMore ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index < barLists.length) {
+                            return HomeCardList([barLists[index]]);
+                          } else {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ));
   }
 }

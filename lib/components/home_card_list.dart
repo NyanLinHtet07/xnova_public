@@ -15,13 +15,6 @@ class _HomeCardListState extends State<HomeCardList> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Text(
-          'Top Bars in Yangon',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
       widget.barLists.isEmpty
           ? const Center(
               child: Padding(
@@ -61,7 +54,7 @@ class _HomeCardListState extends State<HomeCardList> {
                             child: bar.cover != null && bar.cover!.isNotEmpty
                                 ? Image.network(
                                     'https://xnova.nyanlinhtet.com/${bar.cover!}', // Use the original if already complete
-                                    height: 240.0,
+                                    height: 220.0,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   )
@@ -71,7 +64,7 @@ class _HomeCardListState extends State<HomeCardList> {
                                         opacity: 0.1,
                                         child: Image.asset(
                                           'assets/xnova_cover.png',
-                                          height: 240,
+                                          height: 220,
                                           width: double.infinity,
                                           fit: BoxFit.cover,
                                         ),
