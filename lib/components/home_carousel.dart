@@ -29,7 +29,7 @@ class HomeCarousel extends StatelessWidget {
             );
           }).toList(),
           options: CarouselOptions(
-            height: 180.0,
+            height: 100.0,
             enlargeCenterPage: true,
             autoPlay: true,
             aspectRatio: 16 / 9,

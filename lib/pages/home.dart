@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xnova/Model/bar_model.dart';
-import 'package:xnova/components/home_carousel.dart';
+import 'package:xnova/Model/promotion_model.dart';
+// import 'package:xnova/components/home_carousel.dart';
 import 'package:xnova/components/home_card_list.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
@@ -15,19 +16,21 @@ class Home extends StatefulWidget {
 
 class _HomeScreenState extends State<Home> {
   List<Bar> barLists = [];
+  List<Promotion> coverlists = [];
   bool isLoading = true;
   bool isLoadingMore = false;
   bool isSearchBarVisible = false;
   bool hasMoreData = true;
   int currentPage = 1;
 
-  TextEditingController _searchController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchBars();
+    fetchCovers();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -106,6 +109,32 @@ class _HomeScreenState extends State<Home> {
     }
   }
 
+  Future<void> fetchCovers() async {
+    final url = Uri.parse('https://xnova.nyanlinhtet.com/api/covers');
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+
+        setState(() {
+          coverlists = data.map((json) => Promotion.fromJson(json)).toList();
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   Future<void> refreshBars() async {
     await fetchBars(search: _searchController.text);
   }
@@ -147,8 +176,8 @@ class _HomeScreenState extends State<Home> {
               )
             ],
           ),
-          backgroundColor: Colors.white60,
-          elevation: 10,
+          backgroundColor: Colors.white24,
+          elevation: 0,
         ),
         body: isLoading
             ? const Center(
@@ -160,44 +189,107 @@ class _HomeScreenState extends State<Home> {
               )
             : RefreshIndicator(
                 onRefresh: refreshBars,
-                child: Column(
-                  children: [
-                    Visibility(
-                      visible: isSearchBarVisible,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: (value) {
-                            fetchBars(search: value);
-                          },
-                          decoration: InputDecoration(
-                              hintText: 'Search ...',
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  setState(() {
-                                    isSearchBarVisible = false;
-                                    _searchController.clear();
-                                  });
-                                },
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
-                                    BorderSide(color: Colors.cyan, width: 1.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: isSearchBarVisible,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              fetchBars(search: value);
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Search ...',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    setState(() {
+                                      isSearchBarVisible = false;
+                                      _searchController.clear();
+                                    });
+                                  },
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
                                   borderSide: BorderSide(
-                                      color: Colors.grey, width: 2.0))),
+                                      color: Colors.cyan, width: 1.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 2.0))),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16.0),
-                    const HomeCarousel(),
-                    Expanded(
-                      child: ListView.builder(
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 5, 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Promotions List",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.cyan[900]),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      SizedBox(
+                        height: 150,
+                        child: coverlists.isEmpty
+                            ? Center(child: Text("No Data Available"))
+                            : ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: coverlists.length,
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                itemBuilder: (context, index) {
+                                  final item = coverlists[index];
+
+                                  return Container(
+                                    width: 150,
+                                    margin: EdgeInsets.only(right: 12),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            'https://xnova.nyanlinhtet.com/${item.image}'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 5,
+                                          spreadRadius: 2,
+                                          offset: Offset(2, 3),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 5, 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Bars List",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.cyan[900]),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      ListView.builder(
+                        shrinkWrap: true,
                         controller: _scrollController,
                         itemCount: barLists.length + (isLoadingMore ? 1 : 0),
                         itemBuilder: (context, index) {
@@ -213,9 +305,8 @@ class _HomeScreenState extends State<Home> {
                           }
                         },
                       ),
-                    ),
-                  ],
-                ),
-              ));
+                    ],
+                  ),
+                )));
   }
 }

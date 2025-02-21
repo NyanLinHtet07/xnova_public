@@ -24,6 +24,11 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
           ),
           const SizedBox(height: 8),
           Text(
+            'Phone: ${widget.barDetail.contact}',
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 8),
+          Text(
             'Address: ${widget.barDetail.address}',
             style: const TextStyle(fontSize: 16),
           ),

@@ -27,56 +27,6 @@ class Bar {
   }
 }
 
-// class BarDetailData {
-//   final int id;
-//   final String name;
-//   final String? cover;
-//   final int categoryID;
-//   final Category category;
-//   final List<Images> images;
-//   final String? openingTime;
-//   final String? description;
-//   final String? lat;
-//   final String? lng;
-//   final String? web;
-//   final String? address;
-//   final String? contact;
-
-//   BarDetailData(
-//       {required this.id,
-//       required this.name,
-//       this.cover,
-//       required this.categoryID,
-//       required this.category,
-//       required this.images,
-//       this.openingTime,
-//       this.description,
-//       this.lat,
-//       this.lng,
-//       this.web,
-//       this.address,
-//       this.contact});
-
-//   factory BarDetailData.fromJson(Map<String, dynamic> json) {
-//     return BarDetailData(
-//         id: json['id'],
-//         name: json['name'],
-//         cover: json['cover'],
-//         categoryID: json['category_id'],
-//         category: json['category'],
-//         images: (json['images'] as List<dynamic>)
-//                   .map((imageJson) => Images.fromJson(imageJson))
-//                   .toList(),
-//         openingTime: json['opening_time'],
-//         description: json['description'],
-//         lat: json['location_lat'],
-//         lng: json['loation_long'],
-//         web: json['web'],
-//         address: json['address'],
-//         contact: json['contact']);
-//   }
-// }
-
 class Category {
   final int id;
   final String name;
@@ -105,17 +55,3 @@ class Category {
     );
   }
 }
-
-// class Images {
-//   final int id;
-//   final String image;
-
-//   Images({required this.id, required this.image});
-
-//   factory Images.fromJson(Map<String, dynamic> json) {
-//     return Images(
-//       id: json['id'],
-//       image: json['image'],
-//     );
-//   }
-// }

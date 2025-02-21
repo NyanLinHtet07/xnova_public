@@ -120,45 +120,39 @@ class _BarDetailState extends State<BarDetail> {
                         bottom: PreferredSize(
                             preferredSize: const Size.fromHeight(74.0),
                             child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 2),
+                              //margin: const EdgeInsets.symmetric(horizontal: 2),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(237, 14, 143, 160),
+                                color: const Color.fromARGB(236, 255, 255, 255),
                                 borderRadius: BorderRadius.circular(15.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromARGB(213, 14, 143, 160),
-                                      blurRadius: 5,
-                                      spreadRadius: 1,
-                                      offset: const Offset(0, 4)),
-                                ],
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0)),
                                 child: Material(
                                   elevation: 12,
-                                  shadowColor: Colors.cyan,
+                                  //shadowColor: Colors.cyan,
                                   color:
-                                      const Color.fromARGB(237, 14, 143, 160),
+                                      const Color.fromARGB(236, 255, 255, 255),
                                   child: const TabBar(
-                                    labelColor: Colors.white,
+                                    labelColor:
+                                        Color.fromARGB(255, 13, 149, 190),
                                     unselectedLabelColor:
-                                        Color.fromARGB(255, 159, 190, 192),
+                                        Color.fromARGB(255, 29, 66, 69),
                                     indicatorColor: Colors.blue,
                                     isScrollable: false,
                                     tabs: [
-                                      Tab(
-                                          text: 'Detail',
-                                          icon: Icon(Icons.home)),
+                                      Tab(text: 'Info', icon: Icon(Icons.home)),
                                       Tab(
                                           text: 'Menu',
                                           icon: Icon(Icons.wine_bar_outlined)),
                                       Tab(
-                                          text: 'Rewards',
+                                          text: 'Point',
                                           icon: Icon(Icons.card_giftcard)),
-                                      Tab(text: 'Map', icon: Icon(Icons.map)),
                                       Tab(
-                                          text: 'Comment',
+                                          text: 'Review',
                                           icon: Icon(Icons.message_rounded)),
+                                      Tab(text: 'Map', icon: Icon(Icons.map)),
                                     ],
                                   ),
                                 ),
@@ -175,8 +169,8 @@ class _BarDetailState extends State<BarDetail> {
                           BarDetailIndex(barDetail!),
                           BarDetailMenu(barDetail!),
                           BarDetailPoint(barDetail!),
-                          BarDetailMap(barDetail!),
                           BarDetailComment(barDetail!),
+                          BarDetailMap(barDetail!)
                         ],
                       ),
                     ),

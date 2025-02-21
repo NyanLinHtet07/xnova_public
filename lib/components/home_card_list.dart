@@ -42,19 +42,21 @@ class _HomeCardListState extends State<HomeCardList> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
+                        vertical: 12, horizontal: 15),
                     color: const Color.fromARGB(255, 247, 252, 255),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(0.0),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0)),
                             child: bar.cover != null && bar.cover!.isNotEmpty
                                 ? Image.network(
                                     'https://xnova.nyanlinhtet.com/${bar.cover!}', // Use the original if already complete
-                                    height: 220.0,
+                                    height: 195.0,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   )
@@ -64,7 +66,7 @@ class _HomeCardListState extends State<HomeCardList> {
                                         opacity: 0.1,
                                         child: Image.asset(
                                           'assets/xnova_cover.png',
-                                          height: 220,
+                                          height: 195.0,
                                           width: double.infinity,
                                           fit: BoxFit.cover,
                                         ),
