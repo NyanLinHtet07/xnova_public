@@ -8,7 +8,7 @@ class HomeCardList extends StatefulWidget {
   const HomeCardList(this.barLists, {super.key});
 
   @override
-  _HomeCardListState createState() => _HomeCardListState();
+  State<HomeCardList> createState() => _HomeCardListState();
 }
 
 class _HomeCardListState extends State<HomeCardList> {
@@ -90,7 +90,7 @@ class _HomeCardListState extends State<HomeCardList> {
                           title: Text(
                             bar.name,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -99,8 +99,10 @@ class _HomeCardListState extends State<HomeCardList> {
                             children: [
                               Text(
                                 'Opening Hour : ${bar.openingTime}',
+                                style: const TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w500),
                               ),
-                              Text('Happy Hour: N/A'),
+                              // Text('Happy Hour: N/A'),
                             ],
                           ),
                           trailing: const Icon(Icons.favorite),

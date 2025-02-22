@@ -10,7 +10,7 @@ class BarDetailMap extends StatefulWidget {
   const BarDetailMap(this.barDetail, {super.key});
 
   @override
-  _BarDetailMapState createState() => _BarDetailMapState();
+  State<BarDetailMap> createState() => _BarDetailMapState();
 }
 
 class _BarDetailMapState extends State<BarDetailMap> {

@@ -7,7 +7,7 @@ class BarDetailPoint extends StatefulWidget {
   const BarDetailPoint(this.barDetail, {super.key});
 
   @override
-  _BarDetailPoint createState() => _BarDetailPoint();
+  State<BarDetailPoint> createState() => _BarDetailPoint();
 }
 
 class _BarDetailPoint extends State<BarDetailPoint> {

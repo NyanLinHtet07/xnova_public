@@ -1,5 +1,3 @@
-import 'package:xnova/Model/bar_model.dart';
-
 class Promotion {
   final int id;
   final int barId;
@@ -9,19 +7,18 @@ class Promotion {
   final DateTime? endDate;
   final int isActive;
   final int isCover;
-  //final Bar? bar;
+  final BarData bar;
 
-  Promotion({
-    required this.id,
-    required this.barId,
-    this.image,
-    this.description,
-    this.startDate,
-    this.endDate,
-    required this.isActive,
-    required this.isCover,
-    //this.bar
-  });
+  Promotion(
+      {required this.id,
+      required this.barId,
+      this.image,
+      this.description,
+      this.startDate,
+      this.endDate,
+      required this.isActive,
+      required this.isCover,
+      required this.bar});
 
   factory Promotion.fromJson(Map<String, dynamic> json) {
     return Promotion(
@@ -37,7 +34,21 @@ class Promotion {
           : null,
       isActive: json['is_active'],
       isCover: json['is_cover'],
-      //bar: Bar.fromJson(json['bar']),
+      bar: BarData.fromJson(json['bar']),
     );
+  }
+}
+
+class BarData {
+  final int id;
+  final String name;
+
+  BarData({
+    required this.id,
+    required this.name,
+  });
+
+  factory BarData.fromJson(Map<String, dynamic> json) {
+    return BarData(id: json['id'], name: json['name']);
   }
 }

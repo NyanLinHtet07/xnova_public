@@ -5,10 +5,14 @@ import 'package:xnova/Model/bar_detail_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:xnova/components/home_detail/bar_detail_comment.dart';
 import 'package:xnova/components/home_detail/bar_detail_index.dart';
-import 'package:xnova/components/home_detail/bar_detail_menu.dart';
-import 'package:xnova/components/home_detail/bar_detail_map.dart';
+//import 'package:xnova/components/home_detail/bar_detail_menu.dart';
+import 'package:xnova/components/home_detail/bar_detail_menu_new.dart';
+//import 'package:xnova/components/home_detail/bar_detail_map.dart';
+
 import 'package:xnova/components/home_detail/bar_detail_point.dart';
+import 'package:xnova/components/home_detail/bar_detail_promo.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class BarDetail extends StatefulWidget {
   final int barId;
@@ -16,7 +20,7 @@ class BarDetail extends StatefulWidget {
   const BarDetail({super.key, required this.barId});
 
   @override
-  _BarDetailState createState() => _BarDetailState();
+  State<BarDetail> createState() => _BarDetailState();
 }
 
 class _BarDetailState extends State<BarDetail> {
@@ -136,23 +140,29 @@ class _BarDetailState extends State<BarDetail> {
                                       const Color.fromARGB(236, 255, 255, 255),
                                   child: const TabBar(
                                     labelColor:
-                                        Color.fromARGB(255, 13, 149, 190),
+                                        Color.fromARGB(255, 9, 123, 138),
                                     unselectedLabelColor:
                                         Color.fromARGB(255, 29, 66, 69),
-                                    indicatorColor: Colors.blue,
+                                    indicatorColor:
+                                        Color.fromARGB(255, 9, 123, 138),
                                     isScrollable: false,
                                     tabs: [
-                                      Tab(text: 'Info', icon: Icon(Icons.home)),
+                                      Tab(
+                                          text: 'Info',
+                                          icon: Icon(FeatherIcons.home)),
                                       Tab(
                                           text: 'Menu',
-                                          icon: Icon(Icons.wine_bar_outlined)),
+                                          icon: Icon(Icons.restaurant_sharp)),
                                       Tab(
                                           text: 'Point',
-                                          icon: Icon(Icons.card_giftcard)),
+                                          icon: Icon(Icons.qr_code_scanner)),
                                       Tab(
                                           text: 'Review',
-                                          icon: Icon(Icons.message_rounded)),
-                                      Tab(text: 'Map', icon: Icon(Icons.map)),
+                                          icon:
+                                              Icon(FeatherIcons.messageCircle)),
+                                      Tab(
+                                          text: 'Promos',
+                                          icon: Icon(Icons.wallet_giftcard)),
                                     ],
                                   ),
                                 ),
@@ -167,10 +177,10 @@ class _BarDetailState extends State<BarDetail> {
                             const AlwaysScrollableScrollPhysics(), // Allow scrolling
                         children: [
                           BarDetailIndex(barDetail!),
-                          BarDetailMenu(barDetail!),
+                          BarDetailMenuNew(barId: barDetail!.id),
                           BarDetailPoint(barDetail!),
                           BarDetailComment(barDetail!),
-                          BarDetailMap(barDetail!)
+                          BarDetailPromos(barId: barDetail!.id),
                         ],
                       ),
                     ),

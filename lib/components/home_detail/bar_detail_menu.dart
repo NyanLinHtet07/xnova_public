@@ -7,7 +7,7 @@ class BarDetailMenu extends StatefulWidget {
   const BarDetailMenu(this.barDetail, {super.key});
 
   @override
-  _BarDetailMenuState createState() => _BarDetailMenuState();
+  State<BarDetailMenu> createState() => _BarDetailMenuState();
 }
 
 class _BarDetailMenuState extends State<BarDetailMenu> {

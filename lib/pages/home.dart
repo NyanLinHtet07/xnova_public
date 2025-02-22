@@ -6,12 +6,14 @@ import 'package:xnova/components/home_card_list.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:xnova/pages/bar_detail.dart';
+import 'package:xnova/pages/promos.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<Home> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<Home> {
@@ -232,7 +234,7 @@ class _HomeScreenState extends State<Home> {
                           child: Text(
                             "Promotions List",
                             style: TextStyle(
-                                fontSize: 16.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.cyan[900]),
                           ),
@@ -245,31 +247,76 @@ class _HomeScreenState extends State<Home> {
                             ? Center(child: Text("No Data Available"))
                             : ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: coverlists.length,
+                                itemCount: coverlists.length + 1,
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 itemBuilder: (context, index) {
+                                  if (index == coverlists.length) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Promos(),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 150,
+                                        margin: EdgeInsets.only(right: 12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.cyan[800],
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black12,
+                                                blurRadius: 5,
+                                                spreadRadius: 2,
+                                                offset: Offset(2, 3))
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: Text("View All",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              )),
+                                        ),
+                                      ),
+                                    );
+                                  }
                                   final item = coverlists[index];
 
-                                  return Container(
-                                    width: 150,
-                                    margin: EdgeInsets.only(right: 12),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://xnova.nyanlinhtet.com/${item.image}'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black12,
-                                          blurRadius: 5,
-                                          spreadRadius: 2,
-                                          offset: Offset(2, 3),
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => BarDetail(
+                                                    barId: item.barId)));
+                                      },
+                                      child: Container(
+                                        width: 150,
+                                        margin: EdgeInsets.only(right: 12),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                'https://xnova.nyanlinhtet.com/${item.image}'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black12,
+                                              blurRadius: 5,
+                                              spreadRadius: 2,
+                                              offset: Offset(2, 3),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  );
+                                      ));
                                 },
                               ),
                       ),
@@ -281,13 +328,13 @@ class _HomeScreenState extends State<Home> {
                           child: Text(
                             "Bars List",
                             style: TextStyle(
-                                fontSize: 16.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.cyan[900]),
                           ),
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      //SizedBox(height: 8.0),
                       ListView.builder(
                         shrinkWrap: true,
                         controller: _scrollController,
@@ -298,7 +345,8 @@ class _HomeScreenState extends State<Home> {
                           } else {
                             return Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 10),
                                 child: CircularProgressIndicator(),
                               ),
                             );
