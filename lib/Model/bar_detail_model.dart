@@ -8,13 +8,14 @@ class BarDetailData {
   final int categoryId;
   final Category category;
   final List<Images> images;
-  final List<MenuCategory> menus;
+  //final List<MenuCategory> menus;
   final String? description;
   final double? lat;
   final double? lng;
   final String? web;
   final String? address;
   final String? contact;
+  final List<Amenity> amenities;
 
   BarDetailData(
       {required this.id,
@@ -24,40 +25,50 @@ class BarDetailData {
       required this.categoryId,
       required this.category,
       required this.images,
-      required this.menus,
+      //required this.menus,
       this.description,
       this.lat,
       this.lng,
       this.web,
       this.address,
-      this.contact});
+      this.contact,
+      required this.amenities});
 
   factory BarDetailData.fromJson(Map<String, dynamic> json) {
     return BarDetailData(
-        id: json['id'],
-        name: json['name'],
-        cover: json['cover'],
-        openingTime: json['opening_time'],
-        categoryId: json['category_id'],
-        category: Category.fromJson(json['category']),
-        images: (json['images'] as List<dynamic>)
-            .map((imageJson) => Images.fromJson(imageJson))
-            .toList(),
-        menus: json['menus'] != null
-            ? (json['menus'] as List)
-                .map((category) => MenuCategory.fromJson(category))
-                .toList()
-            : [],
-        description: json['description'],
-        lat: (json['location_lat'] != null)
-            ? double.tryParse(json['location_lat'].toString())
-            : null,
-        lng: (json['location_long'] != null)
-            ? double.tryParse(json['location_long'].toString())
-            : null,
-        web: json['web'],
-        address: json['address'],
-        contact: json['contact']);
+      id: json['id'],
+      name: json['name'],
+      cover: json['cover'],
+      openingTime: json['opening_time'],
+      categoryId: json['category_id'],
+      category: Category.fromJson(json['category']),
+      images: (json['images'] as List<dynamic>)
+          .map((imageJson) => Images.fromJson(imageJson))
+          .toList(),
+      // menus: json['menus'] != null
+      //     ? (json['menus'] as List)
+      //         .map((category) => MenuCategory.fromJson(category))
+      //         .toList()
+      //     : [],
+      description: json['description'],
+      lat: (json['location_lat'] != null)
+          ? double.tryParse(json['location_lat'].toString())
+          : null,
+      lng: (json['location_long'] != null)
+          ? double.tryParse(json['location_long'].toString())
+          : null,
+      web: json['web'],
+      address: json['address'],
+      contact: json['contact'],
+      amenities: json['amenities'] is String
+          ? (jsonDecode(json['amenities']) as List)
+              .map((item) => Amenity.fromJson(item))
+              .toList()
+          : (json['amenities'] as List<dynamic>?)
+                  ?.map((item) => Amenity.fromJson(item))
+                  .toList() ??
+              [],
+    );
   }
 }
 
@@ -104,38 +115,48 @@ class Images {
   }
 }
 
-class MenuItem {
+// class MenuItem {
+//   final String name;
+//   final int price;
+
+//   MenuItem({required this.name, required this.price});
+
+//   factory MenuItem.fromJson(Map<String, dynamic> json) {
+//     return MenuItem(
+//       name: json['menu'],
+//       price: json['price'],
+//     );
+//   }
+// }
+
+// class MenuCategory {
+//   final String title;
+//   final List<MenuItem> menus;
+
+//   MenuCategory({required this.title, required this.menus});
+
+//   factory MenuCategory.fromJson(Map<String, dynamic> json) {
+//     return MenuCategory(
+//       title: json['title'] ?? 'Unknown',
+//       menus: json['menus'] != null
+//           ? (jsonDecode(json['menus']) as List)
+//               .map((item) => MenuItem.fromJson(item))
+//               .toList()
+//           : [],
+//     );
+//   }
+// }
+
+class Amenity {
+  final int id;
   final String name;
-  final int price;
 
-  MenuItem({required this.name, required this.price});
+  Amenity({required this.id, required this.name});
 
-  factory MenuItem.fromJson(Map<String, dynamic> json) {
-    return MenuItem(
-      name: json['menu'],
-      price: json['price'],
-    );
-  }
-}
-
-class MenuCategory {
-  final String title;
-  final List<MenuItem> menus;
-
-  MenuCategory({required this.title, required this.menus});
-
-  factory MenuCategory.fromJson(Map<String, dynamic> json) {
-    // List<MenuItem> items = (jsonDecode(json['menus']) as List)
-    //     .map((item) => MenuItem.fromJson(item))
-    //     .toList();
-
-    return MenuCategory(
-      title: json['title'] ?? 'Unknown',
-      menus: json['menus'] != null
-          ? (jsonDecode(json['menus']) as List)
-              .map((item) => MenuItem.fromJson(item))
-              .toList()
-          : [],
+  factory Amenity.fromJson(Map<String, dynamic> json) {
+    return Amenity(
+      id: json['id'],
+      name: json['name'],
     );
   }
 }

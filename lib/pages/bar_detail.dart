@@ -126,7 +126,7 @@ class _BarDetailState extends State<BarDetail> {
                             child: Container(
                               //margin: const EdgeInsets.symmetric(horizontal: 2),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(236, 255, 255, 255),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               child: ClipRRect(
@@ -134,38 +134,73 @@ class _BarDetailState extends State<BarDetail> {
                                     topLeft: Radius.circular(10.0),
                                     topRight: Radius.circular(10.0)),
                                 child: Material(
-                                  elevation: 12,
-                                  //shadowColor: Colors.cyan,
-                                  color:
-                                      const Color.fromARGB(236, 255, 255, 255),
-                                  child: const TabBar(
-                                    labelColor:
-                                        Color.fromARGB(255, 9, 123, 138),
-                                    unselectedLabelColor:
-                                        Color.fromARGB(255, 29, 66, 69),
-                                    indicatorColor:
-                                        Color.fromARGB(255, 9, 123, 138),
-                                    isScrollable: false,
-                                    tabs: [
-                                      Tab(
-                                          text: 'Info',
-                                          icon: Icon(FeatherIcons.home)),
-                                      Tab(
-                                          text: 'Menu',
-                                          icon: Icon(Icons.restaurant_sharp)),
-                                      Tab(
-                                          text: 'Point',
-                                          icon: Icon(Icons.qr_code_scanner)),
-                                      Tab(
-                                          text: 'Review',
-                                          icon:
-                                              Icon(FeatherIcons.messageCircle)),
-                                      Tab(
-                                          text: 'Promos',
-                                          icon: Icon(Icons.wallet_giftcard)),
-                                    ],
-                                  ),
-                                ),
+                                    elevation: 5,
+                                    //shadowColor: Colors.cyan,
+                                    color: Colors.white,
+                                    child: SizedBox(
+                                      height: 65.0,
+                                      child: const TabBar(
+                                        labelColor:
+                                            Color.fromARGB(255, 9, 123, 138),
+                                        unselectedLabelColor:
+                                            Color.fromARGB(255, 29, 66, 69),
+                                        indicatorColor:
+                                            Color.fromARGB(255, 9, 123, 138),
+                                        isScrollable: false,
+                                        tabs: [
+                                          Tab(
+                                            icon: Icon(
+                                              FeatherIcons.home,
+                                              size: 20.0,
+                                            ),
+                                            child: Text(
+                                              'Info',
+                                              style: TextStyle(fontSize: 12.0),
+                                            ),
+                                          ),
+                                          Tab(
+                                              icon: Icon(
+                                                Icons.restaurant_sharp,
+                                                size: 20.0,
+                                              ),
+                                              child: Text(
+                                                'Menu',
+                                                style:
+                                                    TextStyle(fontSize: 12.0),
+                                              )),
+                                          Tab(
+                                              icon: Icon(
+                                                Icons.qr_code_scanner,
+                                                size: 20.0,
+                                              ),
+                                              child: Text(
+                                                'Point',
+                                                style:
+                                                    TextStyle(fontSize: 12.0),
+                                              )),
+                                          Tab(
+                                              icon: Icon(
+                                                FeatherIcons.messageCircle,
+                                                size: 18.0,
+                                              ),
+                                              child: Text(
+                                                'Review',
+                                                style:
+                                                    TextStyle(fontSize: 12.0),
+                                              )),
+                                          Tab(
+                                              icon: Icon(
+                                                Icons.wallet_giftcard,
+                                                size: 18.0,
+                                              ),
+                                              child: Text(
+                                                'Promos',
+                                                style:
+                                                    TextStyle(fontSize: 12.0),
+                                              )),
+                                        ],
+                                      ),
+                                    )),
                               ),
                             )),
                       ),

@@ -27,6 +27,8 @@ class _BarDetailMenuNew extends State<BarDetailMenuNew> {
     final url = Uri.parse(
         'https://xnova.nyanlinhtet.com/api/bar/menu/by-bar/${widget.barId}');
 
+    if (!mounted) return;
+
     setState(() {
       isLoading = true;
     });
@@ -34,9 +36,9 @@ class _BarDetailMenuNew extends State<BarDetailMenuNew> {
     try {
       final response = await http.get(url);
 
+      if (!mounted) return;
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        print("menu list is ${data}");
         setState(() {
           menuList = data.map((json) => BarMenuModel.fromJson(json)).toList();
           isLoading = false;
@@ -45,6 +47,7 @@ class _BarDetailMenuNew extends State<BarDetailMenuNew> {
         throw Exception('Failed to load');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });

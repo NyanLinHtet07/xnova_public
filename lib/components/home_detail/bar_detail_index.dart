@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:map_launcher/map_launcher.dart';
 import 'package:xnova/Model/bar_detail_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BarDetailIndex extends StatefulWidget {
   final BarDetailData barDetail;
@@ -11,43 +13,136 @@ class BarDetailIndex extends StatefulWidget {
 }
 
 class _BarDetailIndexState extends State<BarDetailIndex> {
+  void _makePhoneCall(String phoneNumber) async {
+    final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      debugPrint('Could not launch $phoneNumber');
+    }
+  }
+
+  void _makeMessage(String phoneNumber) async {
+    Uri uri = Uri.parse("sms:$phoneNumber?body=''");
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch';
+    }
+  }
+
+  // void openMaps(double latitude, double longitude) async {
+  //   final availableMaps = await MapLauncher.installedMaps;
+
+  //   if (availableMaps.isNotEmpty) {
+  //     await availableMaps.first.showMarker(
+  //       coords: Coords(latitude, longitude),
+  //       title: "Destination",
+  //     );
+  //   } else {
+  //     throw 'No available map';
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
+        child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             widget.barDetail.name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Phone: ${widget.barDetail.contact}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Address: ${widget.barDetail.address}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Opening Hour: ${widget.barDetail.openingTime}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Happy Hour: N/A',
-            style: const TextStyle(fontSize: 16),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              const Icon(Icons.location_on_outlined,
+                  size: 20, color: Color.fromARGB(255, 0, 108, 122)),
+              const SizedBox(width: 20),
+              SizedBox(
+                  width: 300.0,
+                  child: Text(
+                    widget.barDetail.address ?? "Soon",
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                  ))
+            ],
           ),
           const SizedBox(height: 16),
+          Row(
+            children: [
+              const Icon(Icons.phone,
+                  size: 20, color: Color.fromARGB(255, 0, 108, 122)),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () {
+                  if (widget.barDetail.contact != null &&
+                      widget.barDetail.contact!.isNotEmpty) {
+                    _makePhoneCall(widget.barDetail.contact!);
+                  }
+                },
+                child: Text(
+                  widget.barDetail.contact ?? 'No contact available',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const Icon(Icons.sms_rounded,
+                  size: 20, color: Color.fromARGB(255, 0, 108, 122)),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () {
+                  if (widget.barDetail.contact != null &&
+                      widget.barDetail.contact!.isNotEmpty) {
+                    _makeMessage(widget.barDetail.contact!);
+                  }
+                },
+                child: Text(
+                  widget.barDetail.contact ?? 'No contact available',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const Icon(Icons.browse_gallery_outlined,
+                  size: 20, color: Color.fromARGB(255, 0, 108, 122)),
+              const SizedBox(width: 20),
+              Text(
+                widget.barDetail.openingTime,
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       if (widget.barDetail.lat != null &&
+          //           widget.barDetail.lng != null) {
+          //         openMaps(widget.barDetail.lat!, widget.barDetail.lng!);
+          //       } else {
+          //         debugPrint('Latitude or Longitude is null');
+          //       }
+          //     },
+          //     child: Text('Go to Map')),
+          // const SizedBox(height: 16),
           const Text(
             'Gallery',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
           widget.barDetail.images.isNotEmpty
               ? GridView.builder(
                   shrinkWrap: true,
@@ -55,7 +150,7 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    mainAxisSpacing: 0,
                   ),
                   itemCount: widget.barDetail.images.length,
                   itemBuilder: (context, index) {
@@ -94,8 +189,35 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
                   },
                 )
               : const Center(child: Text('Gallery will Soon')),
+          SizedBox(height: 16),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Amenities',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                if (widget.barDetail.amenities.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Wrap(
+                      spacing: 8,
+                      children: widget.barDetail.amenities.map((amenity) {
+                        return Chip(
+                          label: Text(amenity.name),
+                          backgroundColor: Colors.white,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                const SizedBox(height: 8.0)
+              ],
+            ),
+          )
         ],
       ),
-    );
+    ));
   }
 }

@@ -10,7 +10,7 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -41,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.white,
               shape: const CircularNotchedRectangle(),
               notchMargin: 10.0,
+              height: 65,
               child: SizedBox(
                 height: 40,
                 child: Row(
@@ -48,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     _buildNavItem(FeatherIcons.home, 'Home', 0),
                     _buildNavItem(Icons.wallet_giftcard, 'Promos', 1),
-                    const SizedBox(width: 50),
+                    const SizedBox(width: 60),
                     _buildNavItem(FeatherIcons.calendar, 'Calender', 3),
                     _buildNavItem(FeatherIcons.messageCircle, 'Noti', 4)
                   ],
@@ -56,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Positioned(
-              bottom: 40,
+              bottom: 10,
               left: MediaQuery.of(context).size.width / 2 - 35,
               child: FloatingActionButton(
                 backgroundColor: Colors.cyan[800],
@@ -81,11 +82,12 @@ class _MainScreenState extends State<MainScreen> {
             icon,
             color:
                 _selectedIndex == index ? Colors.cyan[800] : Colors.grey[600],
+            size: 18.0,
           ),
           Text(
             label,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 10.0,
               color:
                   _selectedIndex == index ? Colors.cyan[800] : Colors.grey[600],
             ),

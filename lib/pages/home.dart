@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
 import 'package:xnova/pages/promos.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -148,34 +149,39 @@ class _HomeScreenState extends State<Home> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              IconButton(
+                onPressed: () => {},
+                icon: Icon(FeatherIcons.grid),
+                iconSize: 28.0,
+                color: Colors.cyan[800],
+              ),
               Image.asset(
                 'assets/xnova_icon.png',
                 height: 80,
                 width: 80,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Visibility(
-                      visible: !isSearchBarVisible,
-                      child: IconButton(
-                        icon: Icon(Icons.search),
-                        color: Colors.cyan[800],
-                        iconSize: 28.0,
-                        onPressed: () {
-                          setState(() {
-                            isSearchBarVisible = true;
-                          });
-                        },
-                      )),
-                  IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.menu),
-                    iconSize: 28.0,
-                    color: Colors.cyan[800],
-                  )
-                ],
+              IconButton(
+                icon: Icon(Icons.search),
+                color: Colors.cyan[800],
+                iconSize: 28.0,
+                onPressed: () {
+                  setState(() {
+                    isSearchBarVisible = !isSearchBarVisible;
+                  });
+                },
               )
+              // Visibility(
+              //     visible: !isSearchBarVisible,
+              //     child: IconButton(
+              //       icon: Icon(Icons.search),
+              //       color: Colors.cyan[800],
+              //       iconSize: 28.0,
+              //       onPressed: () {
+              //         setState(() {
+              //           isSearchBarVisible = true;
+              //         });
+              //       },
+              //     )),
             ],
           ),
           backgroundColor: Colors.white24,
@@ -196,35 +202,36 @@ class _HomeScreenState extends State<Home> {
                     children: [
                       Visibility(
                         visible: isSearchBarVisible,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: _searchController,
-                            onChanged: (value) {
-                              fetchBars(search: value);
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Search ...',
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    setState(() {
-                                      isSearchBarVisible = false;
-                                      _searchController.clear();
-                                    });
-                                  },
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  borderSide: BorderSide(
-                                      color: Colors.cyan, width: 1.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide(
-                                        color: Colors.grey, width: 2.0))),
-                          ),
-                        ),
+                        child: Container(
+                            margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+                            padding: const EdgeInsets.all(20.0),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(20),
+                              elevation: 2.0,
+                              child: TextField(
+                                controller: _searchController,
+                                onChanged: (value) {
+                                  fetchBars(search: value);
+                                },
+                                decoration: InputDecoration(
+                                    hintText: 'Search ...',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          isSearchBarVisible = false;
+                                          _searchController.clear();
+                                        });
+                                      },
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.white),
+                              ),
+                            )),
                       ),
                       SizedBox(height: 16.0),
                       Padding(
