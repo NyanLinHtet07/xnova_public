@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:map_launcher/map_launcher.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:xnova/Model/bar_detail_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,18 +32,30 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
     }
   }
 
-  // void openMaps(double latitude, double longitude) async {
-  //   final availableMaps = await MapLauncher.installedMaps;
+  void openMaps() async {
+    final availableMaps = await MapLauncher.installedMaps;
 
-  //   if (availableMaps.isNotEmpty) {
-  //     await availableMaps.first.showMarker(
-  //       coords: Coords(latitude, longitude),
-  //       title: "Destination",
-  //     );
-  //   } else {
-  //     throw 'No available map';
-  //   }
-  // }
+    if (availableMaps.isNotEmpty) {
+      await availableMaps.first.showMarker(
+        coords:
+            Coords(widget.barDetail.lat ?? 0.0, widget.barDetail.lng ?? 0.0),
+        title: "Destination",
+      );
+    } else {
+      throw 'No available map';
+    }
+  }
+
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    foregroundColor: Colors.cyan[800],
+    backgroundColor: Colors.cyan[800],
+    iconColor: Colors.white,
+    minimumSize: Size(88, 36),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +76,7 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
                   size: 20, color: Color.fromARGB(255, 0, 108, 122)),
               const SizedBox(width: 20),
               SizedBox(
-                  width: 300.0,
+                  width: 330.0,
                   child: Text(
                     widget.barDetail.address ?? "Soon",
                     style: const TextStyle(
@@ -127,7 +139,7 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
               )
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 30),
           // ElevatedButton(
           //     onPressed: () {
           //       if (widget.barDetail.lat != null &&
@@ -138,7 +150,26 @@ class _BarDetailIndexState extends State<BarDetailIndex> {
           //       }
           //     },
           //     child: Text('Go to Map')),
-          // const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 50.0,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                openMaps(); // Example: Dubai coordinates
+              },
+              style: raisedButtonStyle,
+              icon: Icon(Icons.location_pin),
+              label: Text(
+                "Open in Map",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
           const Text(
             'Gallery',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

@@ -93,38 +93,52 @@ class _BarDetailMenuNew extends State<BarDetailMenuNew> {
                             itemBuilder: (context, itemIndex) {
                               final menu = item.menuItems[itemIndex];
                               return Container(
+                                height: 100.0,
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 2, horizontal: 1),
-                                padding: const EdgeInsets.all(10.0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 5, 25, 5),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
-                                child: ListTile(
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.network(
-                                      'https://xnova.nyanlinhtet.com/${menu.image}',
-                                      width: 70,
-                                      height: 70,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error,
-                                              StackTrace) =>
-                                          const Icon(Icons.image_not_supported,
-                                              size: 70.0, color: Colors.grey),
-                                    ),
-                                  ),
-                                  title: Text(
-                                    menu.name,
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  trailing: Text(
-                                    "${menu.price} MMK",
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                ),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          'https://xnova.nyanlinhtet.com/${menu.image}',
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              menu.name,
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(height: 5.0),
+                                            Text(
+                                              "${menu.price} MMK",
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ]),
                               );
                             },
                           )
