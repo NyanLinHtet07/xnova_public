@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
 import 'package:xnova/pages/promos.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:xnova/utilities/drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -146,15 +147,21 @@ class _HomeScreenState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () => {},
+          actions: [
+            Builder(
+              builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
                 icon: Icon(FeatherIcons.grid),
                 iconSize: 28.0,
                 color: Colors.cyan[800],
               ),
+            )
+          ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Image.asset(
                 'assets/xnova_icon.png',
                 height: 80,
@@ -170,22 +177,13 @@ class _HomeScreenState extends State<Home> {
                   });
                 },
               )
-              // Visibility(
-              //     visible: !isSearchBarVisible,
-              //     child: IconButton(
-              //       icon: Icon(Icons.search),
-              //       color: Colors.cyan[800],
-              //       iconSize: 28.0,
-              //       onPressed: () {
-              //         setState(() {
-              //           isSearchBarVisible = true;
-              //         });
-              //       },
-              //     )),
             ],
           ),
-          backgroundColor: Colors.white24,
+          backgroundColor: Colors.white,
           elevation: 0,
+        ),
+        endDrawer: Drawer(
+          child: MainDrawer(),
         ),
         body: isLoading
             ? const Center(

@@ -155,7 +155,7 @@ class _BarDetailState extends State<BarDetail> {
                                             ),
                                             child: Text(
                                               'Info',
-                                              style: TextStyle(fontSize: 12.0),
+                                              style: TextStyle(fontSize: 10.0),
                                             ),
                                           ),
                                           Tab(
@@ -166,7 +166,7 @@ class _BarDetailState extends State<BarDetail> {
                                               child: Text(
                                                 'Menu',
                                                 style:
-                                                    TextStyle(fontSize: 12.0),
+                                                    TextStyle(fontSize: 10.0),
                                               )),
                                           Tab(
                                               icon: Icon(
@@ -176,27 +176,27 @@ class _BarDetailState extends State<BarDetail> {
                                               child: Text(
                                                 'Point',
                                                 style:
-                                                    TextStyle(fontSize: 12.0),
+                                                    TextStyle(fontSize: 10.0),
                                               )),
                                           Tab(
                                               icon: Icon(
                                                 FeatherIcons.messageCircle,
-                                                size: 18.0,
+                                                size: 20.0,
                                               ),
                                               child: Text(
                                                 'Review',
                                                 style:
-                                                    TextStyle(fontSize: 12.0),
+                                                    TextStyle(fontSize: 10.0),
                                               )),
                                           Tab(
                                               icon: Icon(
                                                 Icons.wallet_giftcard,
-                                                size: 18.0,
+                                                size: 20.0,
                                               ),
                                               child: Text(
                                                 'Promos',
                                                 style:
-                                                    TextStyle(fontSize: 12.0),
+                                                    TextStyle(fontSize: 10.0),
                                               )),
                                         ],
                                       ),

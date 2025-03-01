@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xnova/Model/promotion_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
+import 'package:intl/intl.dart';
+import 'package:xnova/utilities/drawer.dart';
 
 class Promos extends StatefulWidget {
   const Promos({super.key});
@@ -57,7 +60,30 @@ class _Promos extends State<Promos> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Xnova"),
+          actions: [
+            Builder(
+              builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: Icon(FeatherIcons.grid),
+                iconSize: 28.0,
+                color: Colors.cyan[800],
+              ),
+            )
+          ],
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Image.asset(
+              'assets/xnova_icon.png',
+              height: 80,
+              width: 80,
+            ),
+          ]),
+          backgroundColor: Colors.white,
+        ),
+        endDrawer: Drawer(
+          child: MainDrawer(),
         ),
         body: isLoading
             ? const Center(
@@ -156,7 +182,7 @@ class _Promos extends State<Promos> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Before : ${item.endDate}',
+                                              'Before : ${DateFormat('dd MMM yyyy').format(item.endDate ?? DateTime.now())}',
                                               style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w500),

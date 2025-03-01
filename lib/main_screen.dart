@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'pages/home.dart';
-import 'pages/nearby.dart';
+//import 'pages/nearby.dart';
 import 'pages/noti.dart';
 import 'pages/point.dart';
 import 'pages/promos.dart';
+import 'pages/calender.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     Home(),
     Promos(),
     Point(),
-    Nearby(),
+    Calender(),
     Noti()
   ];
 
@@ -41,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.white,
               shape: const CircularNotchedRectangle(),
               notchMargin: 10.0,
-              height: 65,
+              height: 60,
               child: SizedBox(
                 height: 40,
                 child: Row(
@@ -57,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Positioned(
-              bottom: 10,
+              bottom: 5,
               left: MediaQuery.of(context).size.width / 2 - 35,
               child: FloatingActionButton(
                 backgroundColor: Colors.cyan[800],

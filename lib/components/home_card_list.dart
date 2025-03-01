@@ -75,8 +75,9 @@ class _HomeCardListState extends State<HomeCardList> {
                                           child: Center(
                                         child: Text(
                                           bar.name,
+                                          textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                              fontSize: 30.0,
+                                              fontSize: 24.0,
                                               color: Color.fromARGB(
                                                   255, 0, 12, 44),
                                               fontWeight: FontWeight.bold),
