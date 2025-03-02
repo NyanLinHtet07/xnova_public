@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:xnova/utilities/drawer.dart';
+import 'package:xnova/pages/Search.dart';
 
 class Calender extends StatefulWidget {
   const Calender({super.key});
@@ -38,6 +39,17 @@ class _Calender extends State<Calender> {
               height: 80,
               width: 80,
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
+              child: Icon(
+                Icons.search,
+                color: Colors.cyan[800], // Set color directly on the Icon
+                size: 28.0, // Icon size
+              ),
+            )
           ]),
           backgroundColor: Colors.white,
         ),

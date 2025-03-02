@@ -99,7 +99,7 @@ class _HomeCardListState extends State<HomeCardList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Opening Hour : ${bar.openingTime}',
+                                'Opening : ${bar.openingTime}',
                                 style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.w500),
                               ),

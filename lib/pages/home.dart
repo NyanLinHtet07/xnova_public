@@ -205,7 +205,7 @@ class _HomeScreenState extends State<Home> {
                             padding: const EdgeInsets.all(20.0),
                             child: Material(
                               borderRadius: BorderRadius.circular(20),
-                              elevation: 2.0,
+                              elevation: 1.0,
                               child: TextField(
                                 controller: _searchController,
                                 onChanged: (value) {
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<Home> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Bars List",
+                            "Top Bars in Yangon",
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w500,

@@ -73,20 +73,37 @@ class _BarDetailState extends State<BarDetail> {
                 : NestedScrollView(
                     headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
-                        title: Text(
-                          barDetail?.name ?? 'Loading ...',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        // backgroundColor: Colors.white,
-                        // foregroundColor: Colors.white,
-                        iconTheme: const IconThemeData(
-                            color: Colors.white, size: 24.0),
                         pinned: true,
                         floating: true,
+                        //snap: false,
                         expandedHeight: 300.0,
+                        leading: IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: innerBoxIsScrolled
+                                  ? Colors.cyan
+                                  : Colors.white,
+                              size: 30.0,
+                            )),
+                        title: Container(
+                          //color: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+
+                          child: Text(
+                            barDetail?.name ?? 'Loading ...',
+                            style: TextStyle(
+                                color: innerBoxIsScrolled
+                                    ? Colors.cyan
+                                    : Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        iconTheme: const IconThemeData(
+                            color: Color.fromARGB(220, 255, 255, 255),
+                            size: 24.0),
                         flexibleSpace: FlexibleSpaceBar(
                           background: barDetail!.cover != null
                               ? Image.network(
@@ -134,7 +151,7 @@ class _BarDetailState extends State<BarDetail> {
                                     topLeft: Radius.circular(10.0),
                                     topRight: Radius.circular(10.0)),
                                 child: Material(
-                                    elevation: 5,
+                                    elevation: 0.0,
                                     //shadowColor: Colors.cyan,
                                     color: Colors.white,
                                     child: SizedBox(
@@ -209,7 +226,7 @@ class _BarDetailState extends State<BarDetail> {
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: TabBarView(
                         physics:
-                            const AlwaysScrollableScrollPhysics(), // Allow scrolling
+                            const NeverScrollableScrollPhysics(), // Allow scrolling
                         children: [
                           BarDetailIndex(barDetail!),
                           BarDetailMenuNew(barId: barDetail!.id),

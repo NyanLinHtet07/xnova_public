@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
 import 'package:intl/intl.dart';
 import 'package:xnova/utilities/drawer.dart';
+import 'package:xnova/pages/Search.dart';
 
 class Promos extends StatefulWidget {
   const Promos({super.key});
@@ -79,6 +80,30 @@ class _Promos extends State<Promos> {
               height: 80,
               width: 80,
             ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()),
+                  );
+                },
+                child: Container(
+                    height: 33.0,
+                    width: 160.0,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 3, 133, 150),
+                            width: 1.2),
+                        borderRadius: BorderRadius.circular(30.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Center(
+                        child: Text(
+                          'Search ...',
+                          style: TextStyle(fontSize: 10.0, color: Colors.grey),
+                        ),
+                      ),
+                    )))
           ]),
           backgroundColor: Colors.white,
         ),
