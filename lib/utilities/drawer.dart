@@ -30,6 +30,11 @@ class MainDrawer extends StatelessWidget {
           title: Text('Setting'),
           onTap: () {},
         ),
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Logout'),
+          onTap: () {},
+        ),
       ],
     ));
   }
