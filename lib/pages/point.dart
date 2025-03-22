@@ -9,18 +9,18 @@ class Point extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-              icon: Icon(FeatherIcons.grid),
-              iconSize: 28.0,
-              color: Colors.cyan[800],
-            ),
-          )
-        ],
+        // actions: [
+        //   Builder(
+        //     builder: (context) => IconButton(
+        //       onPressed: () {
+        //         Scaffold.of(context).openEndDrawer();
+        //       },
+        //       icon: Icon(FeatherIcons.grid),
+        //       iconSize: 28.0,
+        //       color: Colors.cyan[800],
+        //     ),
+        //   )
+        // ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -33,12 +33,16 @@ class Point extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      endDrawer: Drawer(
-        child: MainDrawer(),
-      ),
+      // endDrawer: Drawer(
+      //   child: MainDrawer(),
+      // ),
       body: Center(
-        child: Image(image: AssetImage('assets/barcode.png')),
-      ),
+          child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                child: Image(image: AssetImage('assets/qr.jpg')),
+              ))),
     );
   }
 }

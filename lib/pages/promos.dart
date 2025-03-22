@@ -61,18 +61,18 @@ class _Promos extends State<Promos> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            Builder(
-              builder: (context) => IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-                icon: Icon(FeatherIcons.grid),
-                iconSize: 28.0,
-                color: Colors.cyan[800],
-              ),
-            )
-          ],
+          // actions: [
+          //   Builder(
+          //     builder: (context) => IconButton(
+          //       onPressed: () {
+          //         Scaffold.of(context).openEndDrawer();
+          //       },
+          //       icon: Icon(FeatherIcons.grid),
+          //       iconSize: 28.0,
+          //       color: Colors.cyan[800],
+          //     ),
+          //   )
+          // ],
           title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Image.asset(
@@ -80,36 +80,41 @@ class _Promos extends State<Promos> {
               height: 80,
               width: 80,
             ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()),
-                  );
-                },
-                child: Container(
-                    height: 33.0,
-                    width: 160.0,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 3, 133, 150),
-                            width: 1.2),
-                        borderRadius: BorderRadius.circular(30.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Center(
-                        child: Text(
-                          'Search ...',
-                          style: TextStyle(fontSize: 10.0, color: Colors.grey),
-                        ),
-                      ),
-                    )))
+            IconButton(
+                icon: Icon(Icons.search),
+                color: Colors.cyan[800],
+                iconSize: 28.0,
+                onPressed: () => {})
+            // GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => SearchScreen()),
+            //       );
+            //     },
+            //     child: Container(
+            //         height: 33.0,
+            //         width: 160.0,
+            //         decoration: BoxDecoration(
+            //             border: Border.all(
+            //                 color: const Color.fromARGB(255, 3, 133, 150),
+            //                 width: 1.2),
+            //             borderRadius: BorderRadius.circular(30.0)),
+            //         child: Padding(
+            //           padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //           child: Center(
+            //             child: Text(
+            //               'Search ...',
+            //               style: TextStyle(fontSize: 10.0, color: Colors.grey),
+            //             ),
+            //           ),
+            //         )))
           ]),
           backgroundColor: Colors.white,
         ),
-        endDrawer: Drawer(
-          child: MainDrawer(),
-        ),
+        // endDrawer: Drawer(
+        //   child: MainDrawer(),
+        // ),
         body: isLoading
             ? const Center(
                 child: SpinKitWaveSpinner(

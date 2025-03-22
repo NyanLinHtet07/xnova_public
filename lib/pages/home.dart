@@ -8,8 +8,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
 import 'package:xnova/pages/promos.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:xnova/utilities/drawer.dart';
+// import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+// import 'package:xnova/utilities/drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -147,18 +147,18 @@ class _HomeScreenState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            Builder(
-              builder: (context) => IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-                icon: Icon(FeatherIcons.grid),
-                iconSize: 28.0,
-                color: Colors.cyan[800],
-              ),
-            )
-          ],
+          // actions: [
+          //   Builder(
+          //     builder: (context) => IconButton(
+          //       onPressed: () {
+          //         Scaffold.of(context).openEndDrawer();
+          //       },
+          //       icon: Icon(FeatherIcons.grid),
+          //       iconSize: 28.0,
+          //       color: Colors.cyan[800],
+          //     ),
+          //   )
+          // ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -182,9 +182,9 @@ class _HomeScreenState extends State<Home> {
           backgroundColor: Colors.white,
           elevation: 0,
         ),
-        endDrawer: Drawer(
-          child: MainDrawer(),
-        ),
+        // endDrawer: Drawer(
+        //   child: MainDrawer(),
+        // ),
         body: isLoading
             ? const Center(
                 child: SpinKitWaveSpinner(

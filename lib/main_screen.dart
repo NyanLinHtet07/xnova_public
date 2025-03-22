@@ -5,7 +5,8 @@ import 'pages/home.dart';
 import 'pages/noti.dart';
 import 'pages/point.dart';
 import 'pages/promos.dart';
-import 'pages/calender.dart';
+// import 'pages/calender.dart';
+import 'pages/profile.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,8 +22,8 @@ class _MainScreenState extends State<MainScreen> {
     Home(),
     Promos(),
     Point(),
-    Calender(),
-    Noti()
+    Noti(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -51,8 +52,8 @@ class _MainScreenState extends State<MainScreen> {
                     _buildNavItem(FeatherIcons.home, 'Home', 0),
                     _buildNavItem(Icons.wallet_giftcard, 'Promos', 1),
                     const SizedBox(width: 60),
-                    _buildNavItem(FeatherIcons.calendar, 'Calender', 3),
-                    _buildNavItem(FeatherIcons.messageCircle, 'Noti', 4)
+                    _buildNavItem(FeatherIcons.messageCircle, 'Noti', 3),
+                    _buildNavItem(FeatherIcons.user, 'Profile', 4),
                   ],
                 ),
               ),

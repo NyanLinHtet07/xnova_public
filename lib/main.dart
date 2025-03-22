@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart';
-import 'package:xnova/utilities/update_checker.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:xnova/utilities/update_checker.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  UpdateService.checkForUpdate();
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await FlutterDownloader.initialize();
+  // UpdateService.checkForUpdate();
   runApp(const MyApp());
 }
 
