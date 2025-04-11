@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+// import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xnova/Model/promotion_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:xnova/pages/bar_detail.dart';
 import 'package:intl/intl.dart';
-import 'package:xnova/utilities/drawer.dart';
-import 'package:xnova/pages/Search.dart';
+// import 'package:xnova/utilities/drawer.dart';
+// import 'package:xnova/pages/Search.dart';
 
 class Promos extends StatefulWidget {
   const Promos({super.key});
@@ -29,12 +29,15 @@ class _Promos extends State<Promos> {
   Future<void> fetchPromos() async {
     final url = Uri.parse('https://xnova.nyanlinhtet.com/api/bar/promo');
 
+    if (!mounted) return;
+
     setState(() {
       isLoading = true;
     });
 
     try {
       final response = await http.get(url);
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
@@ -47,6 +50,7 @@ class _Promos extends State<Promos> {
         throw Exception('Failed to load');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });

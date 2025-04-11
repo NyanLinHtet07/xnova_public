@@ -116,14 +116,19 @@ class _HomeScreenState extends State<Home> {
   Future<void> fetchCovers() async {
     final url = Uri.parse('https://xnova.nyanlinhtet.com/api/covers');
 
+    if (!mounted) return;
     setState(() {
       isLoading = true;
     });
 
     try {
       final response = await http.get(url);
+      if (!mounted) return;
+
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
+
+        if (!mounted) return;
 
         setState(() {
           coverlists = data.map((json) => Promotion.fromJson(json)).toList();
@@ -133,6 +138,7 @@ class _HomeScreenState extends State<Home> {
         throw Exception('Failed to load');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });

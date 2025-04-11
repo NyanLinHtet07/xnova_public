@@ -34,6 +34,9 @@ dependencies:
   open_file: ^3.5.10
   path_provider: ^2.1.5
   permission_handler: ^11.4.0
+  flutter_secure_storage: ^9.2.4
+  lottie: ^3.3.1
+  flutter_svg: ^2.0.17
   
 
 dev_dependencies:
@@ -52,6 +55,7 @@ flutter:
     - assets/home/
     - assets/bars/
     - assets/
+    - assets/gif/no_auth.json
 
   uses-material-design: true
 

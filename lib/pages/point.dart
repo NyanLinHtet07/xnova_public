@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:xnova/utilities/drawer.dart';
+import 'package:xnova/service/auth_service.dart';
+import 'package:xnova/components/utility/no_auth.dart';
+// import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+// import 'package:xnova/utilities/drawer.dart';
 
-class Point extends StatelessWidget {
+class Point extends StatefulWidget {
   const Point({super.key});
 
   @override
+  State<Point> createState() => _PointState();
+}
+
+class _PointState extends State<Point> {
+  final AuthService authService = AuthService();
+  //bool isLoading = true;
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    final loggedIn = await authService.isLoggedIn();
+
+    setState(() {
+      isLoggedIn = loggedIn;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (!isLoggedIn) {
+      return const NoAuth();
+    }
+
     return Scaffold(
       appBar: AppBar(
-        // actions: [
-        //   Builder(
-        //     builder: (context) => IconButton(
-        //       onPressed: () {
-        //         Scaffold.of(context).openEndDrawer();
-        //       },
-        //       icon: Icon(FeatherIcons.grid),
-        //       iconSize: 28.0,
-        //       color: Colors.cyan[800],
-        //     ),
-        //   )
-        // ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -33,9 +50,6 @@ class Point extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      // endDrawer: Drawer(
-      //   child: MainDrawer(),
-      // ),
       body: Center(
           child: Padding(
               padding: const EdgeInsets.all(10.0),

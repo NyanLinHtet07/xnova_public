@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:xnova/service/auth_service.dart';
+//import 'package:xnova/components/utility/no_auth.dart';
 import 'pages/home.dart';
-//import 'pages/nearby.dart';
 import 'pages/noti.dart';
 import 'pages/point.dart';
 import 'pages/promos.dart';
-// import 'pages/calender.dart';
 import 'pages/profile.dart';
+import 'pages/Auth/login.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,14 +18,31 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  final AuthService authService = AuthService();
 
-  static const List<Widget> _pages = <Widget>[
-    Home(),
-    Promos(),
-    Point(),
-    Noti(),
-    Profile(),
-  ];
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    final loggedIn = await authService.isLoggedIn();
+    setState(() {
+      isLoggedIn = loggedIn;
+    });
+  }
+
+  List<Widget> get _pages => [
+        Home(),
+        Promos(),
+        Point(),
+        Noti(),
+        if (!isLoggedIn) Login(),
+        Profile(),
+      ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -35,7 +53,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _pages[_selectedIndex],
+        body:
+            _pages.length > _selectedIndex ? _pages[_selectedIndex] : _pages[0],
         bottomNavigationBar: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -53,7 +72,8 @@ class _MainScreenState extends State<MainScreen> {
                     _buildNavItem(Icons.wallet_giftcard, 'Promos', 1),
                     const SizedBox(width: 60),
                     _buildNavItem(FeatherIcons.messageCircle, 'Noti', 3),
-                    _buildNavItem(FeatherIcons.user, 'Profile', 4),
+                    _buildNavItem(
+                        FeatherIcons.user, isLoggedIn ? 'Profile' : 'Login', 4),
                   ],
                 ),
               ),

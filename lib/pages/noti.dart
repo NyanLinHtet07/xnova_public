@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:xnova/utilities/drawer.dart';
+// import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+// import 'package:xnova/utilities/drawer.dart';
 
 class Noti extends StatelessWidget {
   const Noti({super.key});
