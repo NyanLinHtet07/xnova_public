@@ -80,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Positioned(
               bottom: 5,
-              left: MediaQuery.of(context).size.width / 2 - 35,
+              left: MediaQuery.of(context).size.width / 2 - 28,
               child: FloatingActionButton(
                 backgroundColor: Colors.cyan[800],
                 elevation: 6.0,

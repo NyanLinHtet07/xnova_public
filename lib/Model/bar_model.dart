@@ -5,6 +5,7 @@ class Bar {
   final String openingTime;
   final int categoryId;
   final Category category;
+  final double rating;
 
   Bar({
     required this.id,
@@ -13,6 +14,7 @@ class Bar {
     required this.openingTime,
     required this.categoryId,
     required this.category,
+    required this.rating,
   });
 
   factory Bar.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Bar {
       openingTime: json['opening_time'],
       categoryId: json['category_id'],
       category: Category.fromJson(json['category']),
+      rating: (json['average_rating'] as num).toDouble(),
     );
   }
 }

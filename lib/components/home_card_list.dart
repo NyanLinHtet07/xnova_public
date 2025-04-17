@@ -88,26 +88,41 @@ class _HomeCardListState extends State<HomeCardList> {
                           ),
                         ),
                         ListTile(
-                          title: Text(
-                            bar.name,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Opening : ${bar.openingTime}',
-                                style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w500),
+                            title: Text(
+                              bar.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
                               ),
-                              // Text('Happy Hour: N/A'),
-                            ],
-                          ),
-                          trailing: const Icon(Icons.favorite),
-                        )
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Opening : ${bar.openingTime}',
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                // Text('Happy Hour: N/A'),
+                              ],
+                            ),
+                            trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(5, (starIndex) {
+                                  final starRating = bar.rating;
+                                  if (starRating >= starIndex + 1) {
+                                    return const Icon(Icons.star,
+                                        color: Colors.amber, size: 18);
+                                  } else if (starRating > starIndex &&
+                                      starRating < starIndex + 1) {
+                                    return const Icon(Icons.star_half,
+                                        color: Colors.amber, size: 18);
+                                  } else {
+                                    return Icon(Icons.star,
+                                        color: Colors.grey[300], size: 18);
+                                  }
+                                })))
                       ],
                     ),
                   ),
