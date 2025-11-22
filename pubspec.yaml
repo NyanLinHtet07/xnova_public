@@ -38,6 +38,9 @@ dependencies:
   lottie: ^3.3.1
   flutter_svg: ^2.0.17
   flutter_rating_bar: ^4.0.1
+  flutter_cache_manager: ^3.4.1
+  image: ^4.5.4
+  gal: ^2.3.1
   
 
 dev_dependencies:

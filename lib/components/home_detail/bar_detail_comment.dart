@@ -63,7 +63,6 @@ class _BarDetailCommentState extends State<BarDetailComment> {
       setState(() {
         _isSubmitting = true;
       });
-      ;
 
       bool success = await _reviewService.submitReview(
           barId: widget.barDetail.id,
@@ -82,39 +81,6 @@ class _BarDetailCommentState extends State<BarDetailComment> {
 
       setState(() {
         _isSubmitting = false;
-      });
-    }
-  }
-
-  final List<Map<String, dynamic>> commentList = [
-    {
-      'id': 1,
-      'comment':
-          "Great atmosphere and friendly staff—perfect spot for a night out"
-    },
-    {
-      'id': 2,
-      'comment':
-          "ဒီဘားမှာ အရသာရှိတဲ့ ကော်တေ့လ်တွေကို အတူတကွ ရင်းနှီးပြီး ခံစားနိုင်ပါတယ်။"
-    },
-    {
-      'id': 3,
-      'comment':
-          "I love the vibe of this bar—chill, but with enough energy to keep things fun"
-    },
-  ];
-
-  final TextEditingController _commentController = TextEditingController();
-
-  void _addComment() {
-    if (_commentController.text.isNotEmpty) {
-      setState(() {
-        commentList.add({
-          'id': commentList.length + 1,
-          'comment': _commentController.text,
-        });
-
-        _commentController.clear();
       });
     }
   }

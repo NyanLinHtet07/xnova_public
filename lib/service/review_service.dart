@@ -37,7 +37,7 @@ class ReviewService {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
-      print("Submit failed: ${response.body}");
+      //print("Submit failed: ${response.body}");
       return false;
     }
   }

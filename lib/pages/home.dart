@@ -53,13 +53,18 @@ class _HomeScreenState extends State<Home> {
 
     final url =
         Uri.parse('https://xnova.nyanlinhtet.com/api/bars?search=$search');
+    if (!mounted) return;
 
     try {
       final response = await http.get(url);
+
+      if (!mounted) return;
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic> fetchBars = responseData['data'];
 
+        if (!mounted) return;
         setState(() {
           barLists = fetchBars.map((json) => Bar.fromJson(json)).toList();
           isLoading = false;
@@ -72,6 +77,7 @@ class _HomeScreenState extends State<Home> {
         throw Exception('Failed to load data');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
